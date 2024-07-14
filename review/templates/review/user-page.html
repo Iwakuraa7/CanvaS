@@ -1,0 +1,22 @@
+{% extends "review/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <style>
+    body {
+        font-family: "Rubik", sans-serif;
+        {#background-color: rgb(240, 240, 240);#}
+    }
+    </style>
+    <div class="centered-headers">
+        <h1>Your Doodles</h1>
+    </div>
+    <div id="user-drawings">
+
+    </div>
+{% endblock %}
+
+{% block script %}
+{#    <script src="{% static 'review/script.js' %}"></script>#}
+    <script src="{% static 'review/load_drawings.js' %}"></script>
+{% endblock %}

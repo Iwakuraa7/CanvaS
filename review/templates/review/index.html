@@ -1,0 +1,36 @@
+{% extends "review/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <style>
+    body {
+        font-family: "Rubik", sans-serif;
+        background-color: rgb(240, 240, 240);
+    }
+    </style>
+    <div id="edit_url" style="display: none">{{ edit_drawing.url }}</div>
+    <div id="edit_id" style="display: none">{{ edit_drawing.id }}</div>
+    <div id="canvas-container">
+        <div id="tools-container">
+            <div class="brush-range">
+                <img src="https://www.autodraw.com/assets/images/stroke-width.svg">
+                <input id="thickness-range" type="range" min="1" max="70" step="1" value="5">
+            </div>
+            <input id="color" type="color">
+            <button class="buttons" id="fill">Fill</button>
+            <img class="icons" id="line-activate-button" width="48" height="48" src="https://img.icons8.com/parakeet-line/48/sign-up.png" alt="sign-up"/>
+            <img id="shapes-button" width="48" height="48" src="https://img.icons8.com/external-icongeek26-outline-icongeek26/100/external-shapes-graphic-design-icongeek26-outline-icongeek26.png" alt="external-shapes-graphic-design-icongeek26-outline-icongeek26"/>
+            <div class="shapes">
+                <img class="buttons" id="circle-activate-button" width="30" height="30" src="https://img.icons8.com/ios-filled/50/circle-thin--v1.png" alt="circle-thin--v1"/>
+                <img class="buttons" id="rect-activate-button" width="30" height="30" src="https://img.icons8.com/windows/32/rectangle-stroked.png" alt="rectangle-stroked"/>
+            </div>
+            <img id="undo" class="buttons" width="48" height="48" src="https://img.icons8.com/material/100/undo--v1.png" alt="undo--v1"/>
+            <img id="clear" class="buttons" width="48" height="48" src="https://img.icons8.com/material-sharp/100/filled-trash.png" alt="filled-trash"/>
+        </div>
+        <canvas id="canvas"></canvas>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'review/script.js' %}"></script>
+{% endblock %}

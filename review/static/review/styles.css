@@ -1,0 +1,148 @@
+#canvas-container {
+    /*border: 1px hotpink dotted;*/
+    display: flex;
+    justify-content: flex-start;
+    margin: 20px;
+}
+
+#tools-container {
+    /*border: 1px hotpink dotted;*/
+    /*background-color: transparent;*/
+    display: flex;
+    flex-direction: column;
+    column-gap: 20px;
+    margin-left: 9%;
+    margin-right: 3%;
+}
+
+#user-drawings {
+    display: block;
+    width: 100vw;
+}
+
+#shapes-button:hover + .shapes {
+    display: block;
+}
+
+#color {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+}
+
+#color::-webkit-color-swatch {
+    border-radius: 50%;
+    border: none;
+}
+
+.buttons {
+    border: none;
+    border-radius: 3px;
+    background-color: white;
+    margin-bottom: 10px;
+}
+
+.buttons:hover {
+    background-color: mintcream;
+    cursor: pointer;
+}
+
+.buttons:focus {
+    outline: 1px #aaaa solid;
+}
+
+.icons {
+    background-color: white;
+    border-radius: 50%;
+}
+
+.centered-headers {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 1%;
+}
+
+.shapes {
+    display: none;
+}
+
+.shapes:hover {
+    display: block;
+}
+
+/* Container styling */
+.brush-range {
+    position: relative;
+    display: inline-block;
+}
+
+/* Image styling */
+.brush-range img {
+    display: block;
+    width: 150px;
+}
+
+/* Range input styling */
+#thickness-range {
+    -webkit-appearance: none;
+    width: 87%;
+    height: 45px; /* Adjust this height to fit your image height */
+    background: transparent;
+    position: absolute;
+    top: 0;
+    left: 5%;
+    pointer-events: none; /* Prevent interactions with the bar */
+}
+
+/* Hide the track of the range input */
+#thickness-range::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+}
+
+#thickness-range::-moz-range-track {
+    background: transparent;
+}
+
+#thickness-range::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+/* Thumb styling */
+#thickness-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px; /* Initial thumb size */
+    height: 30px; /* Initial thumb size */
+    border-radius: 2px;
+    background: #aaaa;
+    cursor: pointer;
+    pointer-events: all; /* Allow interactions with the thumb */
+}
+
+#thickness-range::-moz-range-thumb {
+    width: 10px;
+    height: 15px;
+    border-radius: 50%;
+    background: black;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+#thickness-range::-ms-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: black;
+    cursor: pointer;
+    pointer-events: all;
+}
