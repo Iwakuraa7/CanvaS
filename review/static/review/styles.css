@@ -1,3 +1,25 @@
+#login {
+    /*border: 1px hotpink dotted;*/
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-self: center;
+    align-items: center;
+}
+
+#inner-login {
+    display: flex;
+    flex-direction: column;
+}
+
+#verification-container-login {
+    /*border: 1px hotpink dotted;*/
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3%;
+}
+
 #canvas-container {
     /*border: 1px hotpink dotted;*/
     display: flex;
@@ -18,10 +40,12 @@
 #user-drawings {
     display: block;
     width: 100vw;
+    height: 100vh;
 }
 
 #shapes-button:hover + .shapes {
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 #color {
@@ -44,16 +68,31 @@
     border: none;
     border-radius: 3px;
     background-color: white;
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .buttons:hover {
-    background-color: mintcream;
+    box-shadow: 0px 0px 2px 2px lightgray;
     cursor: pointer;
 }
 
 .buttons:focus {
-    outline: 1px #aaaa solid;
+    outline: 2px #aaaa solid;
+}
+
+.login-button {
+    width: 100px;
+    height: 40px;
+}
+
+.inputs {
+    text-indent: 7px;
+    background-color: white;
+    border: 1px #aaaa solid;
+    border-radius: 5px;
+    outline: none;
+    width: 400px;
+    height: 30px;
 }
 
 .icons {
@@ -68,12 +107,17 @@
     margin-top: 1%;
 }
 
+.labels {
+    padding: 7px;
+}
+
 .shapes {
     display: none;
 }
 
 .shapes:hover {
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Container styling */

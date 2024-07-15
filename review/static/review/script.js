@@ -5,6 +5,7 @@ class Circle {
         this.radius = radius;
         this.color = color;
         this.lineWidth = lineWidth;
+        this.fillColor = null;
     }
 
     draw(context) {
@@ -12,22 +13,16 @@ class Circle {
         context.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
         context.strokeStyle = this.color;
         context.lineWidth = this.lineWidth;
+        if (this.fillColor) {
+            context.fillStyle = this.fillColor;
+            context.fill();
+        }
         context.stroke();
     }
 
     isShapeClicked(xMouse, yMouse) {
         const distance = Math.sqrt(((xMouse - this.xPos) * (xMouse - this.xPos)) + ((yMouse - this.yPos) * (yMouse - this.yPos)));
         return distance <= this.radius;
-    }
-
-    fillColor(context, color) {
-        context.beginPath();
-        context.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
-        context.strokeStyle = this.color;
-        context.fillStyle = color;
-        context.fill();
-        context.lineWidth = this.lineWidth;
-        context.stroke();
     }
 }
 
@@ -65,39 +60,32 @@ class Rectangle {
         this.height = height;
         this.color = color;
         this.lineWidth = lineWidth;
+        this.fillColor = null;
     }
 
     draw(context) {
         context.beginPath();
-        context.rect(this.xPos, this.yPos, this.width, this.height)
+        context.rect(this.xPos, this.yPos, this.width, this.height);
         context.strokeStyle = this.color;
         context.lineWidth = this.lineWidth;
-        context.lineCap = "butt";
-        context.lineJoin = "miter";
+        if (this.fillColor) {
+            context.fillStyle = this.fillColor;
+            context.fill();
+        }
         context.stroke();
     }
 
     isShapeClicked(xMouse, yMouse) {
         return xMouse >= this.xPos && xMouse <= this.xPos + this.width && yMouse >= this.yPos && yMouse <= this.yPos + this.height;
     }
-
-    fillColor(context, color) {
-        context.beginPath();
-        context.rect(this.xPos, this.yPos, this.width, this.height)
-        context.strokeStyle = this.color;
-        context.fillStyle = color;
-        context.fill();
-        context.lineWidth = this.lineWidth;
-        context.lineCap = "butt";
-        context.lineJoin = "miter";
-        context.stroke();
-    }
 }
 
 function updateCanvas(context, shapes, img) {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(img, 0, 0);
-    shapes.forEach((shape) => shape.draw(context))
+    if (img.src) {
+        context.drawImage(img, 0, 0);
+    }
+    shapes.forEach((shape) => shape.draw(context));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -121,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const editUrlElement = document.querySelector('#edit_url');
     const editUrl = editUrlElement.innerText;
     const editId = parseInt(document.querySelector('#edit_id').innerText);
-    console.log(editId);
+    console.log(editId)
 
     // Canvas settings
     const canvas = document.querySelector('#canvas')
@@ -192,44 +180,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveBtn = document.querySelector('#save')
     saveBtn.onclick = () => {
-        if(editId) {
-            fetch(`/save_drawing`, {
-                method: "PUT",
-                body: JSON.stringify({
-                    edit_drawing_id: editId,
-                    drawing_url: canvas.toDataURL()
-                })
+        fetch(`/save_drawing`, {
+            method: isNaN(editId) ? "POST" : "PUT",
+            body: JSON.stringify({
+                edit_drawing_id: editId,
+                drawing_url: canvas.toDataURL()
             })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.success) {
-                        document.querySelector('#msgs').innerText = 'Saved.';
-                    }
-                    else if(data.error) {
-                        console.log(`${data.error}`);
-                    }
-                })
-        }
-        else {
-            fetch(`save_drawing`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    drawing_url: canvas.toDataURL()
-                })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    document.querySelector('#msgs').innerText = 'Saved';
+                }
+                else if(data.error) {
+                    console.log(`${data.error}`);
+                }
             })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.success) {
-                        document.querySelector('#msgs').innerText = 'Saved.';
-                    }
-                    else if(data.error) {
-                        console.log(`${data.error}`)
-                    }
-                })
-        }
     }
 
     // Events
@@ -256,11 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
-    canvas.addEventListener('mouseup', (event) => {
-        const canvasInfo = canvas.getBoundingClientRect();
-        const x = event.clientX - canvasInfo.left;
-        const y = event.clientY - canvasInfo.top;
-
+    canvas.addEventListener('mouseup', () => {
         if(isLineBtn) {
             isDrawing = false;
             if (currentShape) {
@@ -269,12 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         else if(isCircleBtn) {
-            // const radius = Math.sqrt(Math.pow(x - prevX, 2) + Math.pow(y - prevY, 2));
-            // if(radius > 0) {
-            //     currentShape = new Circle(prevX, prevY, radius, currentColor, thicknessValue);
-            //     currentShape.draw(context);
-            //     shapes.push(currentShape);
-            // }
             if(currentShape) {
                 shapes.push(currentShape)
                 isDrawing = false;
@@ -283,13 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         else if(isRectBtn) {
-            // const width = x - prevX;
-            // const height = y - prevY;
-            // if(width !== 0 && height !== 0) {
-            //     currentShape = new Rectangle(prevX, prevY, width, height, currentColor, thicknessValue);
-            //     currentShape.draw(context);
-            //     shapes.push(currentShape);
-            // }
             if(currentShape) {
                 shapes.push(currentShape)
                 isDrawing = false;
@@ -334,28 +283,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fill logic
     canvas.addEventListener('click', (event) => {
-        if(isFillBtn) {
+        if (isFillBtn) {
             const canvasInfo = canvas.getBoundingClientRect();
             const x = event.clientX - canvasInfo.left;
             const y = event.clientY - canvasInfo.top;
-            console.log(shapes);
 
-            // TODO: Fix the bug when user tries to fill the canvas
-            // shapes.forEach((shape) => {
-            //     shape.isShapeClicked(x, y) ? shape.fillColor(context, currentColor) : console.log('canvas is clicked')
-            // })
-
-            for(let i = 0; i < shapes.length; i++) {
-                if(shapes[i].isShapeClicked(x, y)) {
-                    shapes[i].fillColor(context, currentColor);
-                    // console.log('shape is clicked.')
+            for (let i = 0; i < shapes.length; i++) {
+                if (shapes[i].isShapeClicked(x, y)) {
+                    shapes[i].fillColor = currentColor;
+                    updateCanvas(context, shapes, img); // Redraw the canvas after filling the shape
                     return;
                 }
             }
 
             canvas.style.background = currentColor;
         }
-    })
+    });
+
 
     // Brush width and color logic
     thicknessRange.addEventListener('input', (event) => {

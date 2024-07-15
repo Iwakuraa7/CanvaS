@@ -2,13 +2,22 @@
 {% load static %}
 
 {% block body %}
-    {{ msg }}
-    <form action="{% url 'login' %}" method="post">
-    {% csrf_token %}
-        <input type="text" name="username">
-        <input type="password" name="password">
-        <input type="submit" value="login">
-    </form>
-    <p>Don't have an account?</p>
-    <a href="{% url 'register' %}">Sign in</a>
+    <div id="login">
+        <h1 class="centered-headers">CanvaS</h1>
+        {{ msg }}
+        <form action="{% url 'login' %}" autocomplete="off" method="post">
+        {% csrf_token %}
+            <div id="inner-login">
+                <label class="labels" for="username">Username </label><input type="text" name="username" id="username" class="inputs">
+                <label class="labels" for="password">Password </label><input type="password" name="password" id="password" class="inputs">
+                <div id="verification-container-login">
+                    <input type="submit" class="buttons login-button" value="login">
+                    <div style="display: block; text-align: end">
+                        Don't have an account?<br>
+                        <a href="{% url 'register' %}">Sign in</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}
